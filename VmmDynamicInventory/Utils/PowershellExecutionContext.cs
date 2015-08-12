@@ -60,7 +60,16 @@ namespace VmmDynamicInventory.Utils
                 
                 String hostGroupPath = vm.Properties["HostGroupPath"].Value.ToString();
 
-                String ansibleHostName = vm.Properties[ansibleHostProperty].Value.ToString();
+                String ansibleHostName = null;
+                if ((vm.Properties[ansibleHostProperty] != null ) && (vm.Properties[ansibleHostProperty].Value != null))
+                {
+                    ansibleHostName = vm.Properties[ansibleHostProperty].Value.ToString();
+                }
+                else
+                {
+                    ansibleHostName = vm.Properties["Name"].Value.ToString();
+                }
+                
 
                 Vm thisVM = new Vm();
                 thisVM.VmName = vmName;
