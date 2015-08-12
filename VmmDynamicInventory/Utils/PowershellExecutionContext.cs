@@ -49,7 +49,7 @@ namespace VmmDynamicInventory.Utils
                 String ansibleTag = null;
                 foreach (var groupByProperty in ansibleGroupByList)
                 {
-                    if (ansibleTag == "no_group")
+                    if (ansibleTag == "no_group" || ansibleTag == null)
                     {
                         if ((vm.Properties[ansibleGroupBy].Value != null))
                         {
