@@ -20,6 +20,7 @@ namespace VmmDynamicInventory.Utils
             String ansibleHostProperty = ConfigurationManager.AppSettings["vmm:AnsibleHostProperty"];
             String ansibleHostDomainSuffix = ConfigurationManager.AppSettings["vmm:AnsibleHostDomainSuffix"];
             bool ansibleShowHostsWithoutGroup = System.Convert.ToBoolean(strAnsibleShowHostsWithoutGroup);
+            string scriptFilter = ConfigurationManager.AppSettings["vmm:Scriptfilter"];
 
             var ansibleGroupByList = ansibleGroupBy.Split(',');
 
@@ -27,6 +28,7 @@ namespace VmmDynamicInventory.Utils
             String listVmsString = localFolder + @"Powershell\ListVms.ps1";
             string scriptText = System.IO.File.ReadAllText(listVmsString);
             scriptText = scriptText.Replace("#SCVMMSERVER", vmmServerName);
+            scriptText = scriptText.Replace("#SCRIPTFILTER", scriptFilter);
 
             var ansibleHostList = new Dictionary<String, Object>();
 
