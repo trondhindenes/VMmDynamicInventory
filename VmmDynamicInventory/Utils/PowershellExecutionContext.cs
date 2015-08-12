@@ -51,9 +51,9 @@ namespace VmmDynamicInventory.Utils
                 {
                     if (ansibleTag == "no_group" || ansibleTag == null)
                     {
-                        if ((vm.Properties[ansibleGroupBy].Value != null))
+                        if ((vm.Properties[groupByProperty].Value != null))
                         {
-                            ansibleTag = vm.Properties[ansibleGroupBy].Value.ToString();
+                            ansibleTag = vm.Properties[groupByProperty].Value.ToString();
                         }
                         else
                         {
