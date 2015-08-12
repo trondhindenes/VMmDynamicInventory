@@ -21,6 +21,8 @@ namespace VmmDynamicInventory.Utils
             String ansibleHostDomainSuffix = ConfigurationManager.AppSettings["vmm:AnsibleHostDomainSuffix"];
             bool ansibleShowHostsWithoutGroup = System.Convert.ToBoolean(strAnsibleShowHostsWithoutGroup);
 
+            var ansibleGroupByList = ansibleGroupBy.Split(',');
+
             var localFolder = HttpContext.Current.Server.MapPath("/");
             String listVmsString = localFolder + @"Powershell\ListVms.ps1";
             string scriptText = System.IO.File.ReadAllText(listVmsString);
@@ -43,22 +45,29 @@ namespace VmmDynamicInventory.Utils
                 string vmName = vm.Properties["Name"].Value.ToString();
 
                 String ansibleTag = null;
-                
-                if ((vm.Properties[ansibleGroupBy].Value != null))
+                foreach (var groupByProperty in ansibleGroupByList)
                 {
-                    ansibleTag = vm.Properties[ansibleGroupBy].Value.ToString();
-                }
-                else
-                {
-                    ansibleTag = "no_group";
+                    if (ansibleTag == "no_group")
+                    {
+                        if ((vm.Properties[ansibleGroupBy].Value != null))
+                        {
+                            ansibleTag = vm.Properties[ansibleGroupBy].Value.ToString();
+                        }
+                        else
+                        {
+                            ansibleTag = "no_group";
+                        }
+
+                        //since we cast to string, empty values may show up as "(none)"
+                        if (ansibleTag == "(none)")
+                        {
+                            ansibleTag = "no_group";
+                        }
+                    }
+                    
+
                 }
 
-                //since we cast to string, empty values may show up as "(none)"
-                if (ansibleTag == "(none)")
-                {
-                    ansibleTag = "no_group";
-                }
-                
                 String hostGroupPath = vm.Properties["HostGroupPath"].Value.ToString();
 
                 String ansibleHostName = null;
