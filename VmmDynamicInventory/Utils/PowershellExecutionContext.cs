@@ -18,6 +18,7 @@ namespace VmmDynamicInventory.Utils
             string ansibleGroupBy = ConfigurationManager.AppSettings["vmm:AnsibleGroupProperty"];
             String strAnsibleShowHostsWithoutGroup = ConfigurationManager.AppSettings["vmm:AnsibleShowHostsWithoutGroup"];
             String ansibleHostProperty = ConfigurationManager.AppSettings["vmm:AnsibleHostProperty"];
+            String ansibleHostDomainSuffix = ConfigurationManager.AppSettings["vmm:AnsibleHostDomainSuffix"];
             bool ansibleShowHostsWithoutGroup = System.Convert.ToBoolean(strAnsibleShowHostsWithoutGroup);
 
             var localFolder = HttpContext.Current.Server.MapPath("/");
@@ -69,7 +70,11 @@ namespace VmmDynamicInventory.Utils
                 {
                     ansibleHostName = vm.Properties["Name"].Value.ToString();
                 }
-                
+
+                if ((ansibleHostDomainSuffix != null) || (ansibleHostDomainSuffix != ""))
+                {
+                    ansibleHostName = ansibleHostName + ansibleHostDomainSuffix;
+                }
 
                 Vm thisVM = new Vm();
                 thisVM.VmName = vmName;
