@@ -17,6 +17,7 @@ namespace VmmDynamicInventory.Utils
             string vmmServerName = ConfigurationManager.AppSettings["vmm:vmmServer"];
             string ansibleGroupBy = ConfigurationManager.AppSettings["vmm:AnsibleGroupProperty"];
             String strAnsibleShowHostsWithoutGroup = ConfigurationManager.AppSettings["vmm:AnsibleShowHostsWithoutGroup"];
+            String ansibleHostProperty = ConfigurationManager.AppSettings["vmm:AnsibleHostProperty"];
             bool ansibleShowHostsWithoutGroup = System.Convert.ToBoolean(strAnsibleShowHostsWithoutGroup);
 
             var localFolder = HttpContext.Current.Server.MapPath("/");
@@ -59,12 +60,15 @@ namespace VmmDynamicInventory.Utils
                 
                 String hostGroupPath = vm.Properties["HostGroupPath"].Value.ToString();
 
+                String ansibleHostName = vm.Properties[ansibleHostProperty].Value.ToString();
+
                 Vm thisVM = new Vm();
                 thisVM.VmName = vmName;
                 thisVM.AnsibleGroup = ansibleTag;
                 thisVM.HostGroupPath = hostGroupPath;
+                thisVM.AnsibleHostName = ansibleHostName;
                 
-                System.Diagnostics.Debug.WriteLine(string.Format("VM {0} is in Ansigle group {1}", thisVM.VmName, thisVM.AnsibleGroup));
+                System.Diagnostics.Debug.WriteLine(string.Format("VM {0} is in Ansigle group {1}", thisVM.AnsibleHostName, thisVM.AnsibleGroup));
                 if ((ansibleShowHostsWithoutGroup == true) ||(ansibleTag != "no_group"))
                 {
                     vmList.Add(thisVM);
@@ -83,7 +87,7 @@ namespace VmmDynamicInventory.Utils
                 {
                     foreach (var vm in thisGroupVMs)
                     {
-                        hostList.Add(vm.VmName);
+                        hostList.Add(vm.AnsibleHostName);
                     }
 
                     var cloudList = new Dictionary<String, Object>();
