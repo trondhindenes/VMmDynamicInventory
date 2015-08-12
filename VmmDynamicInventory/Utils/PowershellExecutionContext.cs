@@ -79,7 +79,7 @@ namespace VmmDynamicInventory.Utils
             {
                 var thisGroupVMs = vmList.Where(x => x.AnsibleGroup == AnsibleGroup);
                 var hostList = new List<Object>();
-                if (hostList.Count > 0)
+                if (vmList.Where(x => x.AnsibleGroup == AnsibleGroup).Count() > 0)
                 {
                     foreach (var vm in thisGroupVMs)
                     {
