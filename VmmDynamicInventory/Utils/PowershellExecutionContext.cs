@@ -60,8 +60,8 @@ namespace VmmDynamicInventory.Utils
                             ansibleTag = "no_group";
                         }
 
-                        //since we cast to string, empty values may show up as "(none)"
-                        if (ansibleTag == "(none)")
+                        //since we cast to string, empty values may show up as "(none) or "" "
+                        if ((ansibleTag == "(none)") || (ansibleTag == ""))
                         {
                             ansibleTag = "no_group";
                         }
